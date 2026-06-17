@@ -18,10 +18,10 @@ const parser = new Parser({
 
 function extractImage(item: Record<string, unknown>): string | undefined {
   // Try various common image fields
-  const mc = item.mediaContent as Record<string, unknown> | undefined
-  if (mc?.$.url) return mc.$.url as string
-  const mt = item.mediaThumbnail as Record<string, unknown> | undefined
-  if (mt?.$.url) return mt.$.url as string
+  const mc = item.mediaContent as Record<string, Record<string, unknown>> | undefined
+  if (mc?.$ && mc.$['url']) return mc.$['url'] as string
+  const mt = item.mediaThumbnail as Record<string, Record<string, unknown>> | undefined
+  if (mt?.$ && mt.$['url']) return mt.$['url'] as string
   const enc = item.enclosure as Record<string, unknown> | undefined
   if (enc?.url && (enc.type as string)?.startsWith('image/')) return enc.url as string
   // Try to extract from content
